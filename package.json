@@ -1,0 +1,15 @@
+{
+  "name": "myspotifycli",
+  "version": "1.0.0",
+  "description": "A personal Spotify Cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Spotify",
+    "Cli"
+  ],
+  "author": "Valentin Barreras",
+  "license": "ISC"
+}
