@@ -1,6 +1,12 @@
-//const axios=require('axios');
-//const express = require('express')
+const express = require('express')
+const request = require('request')
+const bodyParser = require('body-parser')
+const app = express();
+const port = 8888;
 const querystring = require('querystring');
+const fs = require('fs')
+const configFile = './.config.json'
+const file = require(configFile)
 
 var client_id = '12978879d72e4d719d45bf3b9c42dc33'; // Your client id
 var client_secret = 'f5db843c3ba743c2b487a958023843f5'; // Your secret
@@ -21,9 +27,98 @@ var generateRandomString = function(length) {
   return text;
 };
 
+app.use(bodyParser.json());
+
+app.get('/', (req,res)=>{
+		res.send("Holaaaaa!")
+})
+
+app.post('/login', (req,res)=>{
+		console.log(req)
+		console.log(req.body)
+		//res.send({message: "Done"})
+		var url = getLink(req.body.scope);
+		res.send({url:url});
+})
+
+app.get('/callback', function(req, res) {
+
+  // your application requests refresh and access tokens
+  // after checking the state parameter
+		
+		var {code, state }= req.query
+
+    var authOptions = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+      },
+      json: true
+    };
+
+    request.post(authOptions, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+
+        var access_token = body.access_token,
+            refresh_token = body.refresh_token;
+
+			  file.accessToken = access_token;
+			  file.refreshToken = refresh_token;
+
+			  fs.writeFileSync(configFile, JSON.stringify(file,null,2))
+
+				res.redirect('/')
+
+      } else {
+        res.redirect('/#' +
+          querystring.stringify({
+            error: 'invalid_token'
+          }));
+      }
+    });
+});
+
+app.post('/refresh_token', function(req, res) {
+
+  // requesting access token from refresh token
+				//console.log(req.body.accessToken)
+				var {refreshToken} = req.body
+				if(refreshToken !== undefined ){
+							 var authOptions = {
+                 url: 'https://accounts.spotify.com/api/token',
+                 headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+                 form: {
+                   grant_type: 'refresh_token',
+                   refresh_token: refreshToken
+                 },
+                 json: true
+               };
+                                                                                                                            
+               request.post(authOptions, function(error, response, body) {
+                 if (!error && response.statusCode === 200) {
+                   var access_token = body.access_token;
+                   console.log("Despues del refresh ",access_token);
+											file.accessToken = access_token;
+                                                                                
+                      fs.writeFileSync(configFile, JSON.stringify(file,null,2))
+                 }
+               });
+								res.status(200).send({"message": "Si se encontro"})
+				} else {
+								res.status(404).send({"message": "Lo se encontro el token"})
+				}
+  /*var refresh_token = req.query.refresh_token;*/ 
+				//res.send({"message": "Hola!"})
+});
+
+const getLink = (textScope) => {
   var state = generateRandomString(16);
-  var scope = 'user-read-private user-read-email';
-  //res.redirect('https://accounts.spotify.com/authorize?' +
+  var scope = textScope;
     var test = querystring.stringify({
       response_type: 'code',                              
       client_id: client_id,
@@ -31,7 +126,8 @@ var generateRandomString = function(length) {
       redirect_uri: redirect_uri,
       state: state
     });
-	//))
+		return `https://accounts.spotify.com/authorize?${test}`;
+}
 
-console.log(`La URL es: https://accounts.spotify.com/authorize?${test}`);
+app.listen(port, ()=> console.log(`Listening on port ${port}`));
 
