@@ -15,7 +15,10 @@
   "dependencies": {
     "axios": "^0.24.0",
     "body-parser": "^1.19.0",
+    "cli-color": "^2.0.1",
+    "clui": "^0.3.6",
     "express": "^4.17.1",
+    "inquirer": "^8.2.0",
     "request": "^2.88.2"
   }
 }
