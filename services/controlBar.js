@@ -8,7 +8,7 @@ const changeSong = ( actionEvent ) => {
 				axios.post(`${urlMain}/me/player/${actionEvent}`,null,{
 								headers:{"Authorization": `Bearer ${file.accessToken}`},
 				params:{
-								device_id: "878785bff5e98635f09a5423598c212cda61f644"
+								device_id: file.device
 				}
 				})
 				.then(res=>{
