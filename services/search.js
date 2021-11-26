@@ -18,7 +18,7 @@ const getSearch = (type, query) => {
             ?? res.data.albums.items
             ?? res.data.playlists.items)
     })
-    .catch(err=>console.log(err));
+    .catch(err=>console.log(err.response.data));
 }
 
 getSearch(process.argv[2],process.argv[3]);

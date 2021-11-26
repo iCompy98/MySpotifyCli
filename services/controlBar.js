@@ -9,8 +9,8 @@ const changeSong = ( actionEvent ) => {
             headers:{"Authorization": `Bearer ${file.accessToken}`},
 		    params:{device_id: file.device}
         })
-	    .then(res=>console.log("Sip ",res.data))
-		.catch(err=>console.log("Nop ",err.response.data))
+	    .then(res=>console.log("Hecho! "))
+		.catch(err=>console.log("Error ",err.response.data))
 }
 
 const changePlayer = ( actionEvent ) => {
@@ -39,7 +39,7 @@ const currentSong = () => {
             headers:{"Authorization": `Bearer ${file.accessToken}`},
         }
     ).then(res=>{
-    console.log(`${!res.data.is_playing ? "(PAUSADO)" : ""}`+
+    console.log(`${!res.data.is_playing ? "(PAUSADO) " : ""}`+
     `Escuchando ${res.data.item.name} de ${sortString(res.data.item.artists)}`)
 
     })
