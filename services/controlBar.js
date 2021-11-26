@@ -33,12 +33,27 @@ const changeShuffle = ( bool ) => {
     .catch(err=>console.log("Ocurrio un error ",err))
 }
 
+const currentSong = () => {
+    axios.get(`${urlMain}/me/player/currently-playing`,
+        {
+            headers:{"Authorization": `Bearer ${file.accessToken}`},
+        }
+    ).then(res=>{
+    console.log(`${!res.data.is_playing ? "(PAUSADO)" : ""}`+
+    `Escuchando ${res.data.item.name} de ${sortString(res.data.item.artists)}`)
+
+    })
+    .catch(err=>console.log(err))
+}
+
 switch (process.argv[2]){
     case "next":
+        console.log("Cambiando cancion...")
         changeSong(process.argv[2]);
 		break;
 	case "prev":
-	    changeSong("previous");
+	    console.log("Cambiando cancion...")
+        changeSong("previous");
 		break;
     case "play":
         changePlayer(process.argv[2])
@@ -57,7 +72,19 @@ switch (process.argv[2]){
             console.log(`No hay opciones para 'random ${process.argv[3]}'`)
         }
         break;
+    case "now":
+        currentSong();
+        break;
     default:
 	    console.log(`No hay opciones para '${process.argv[2]}'`)
 }
 
+function sortString(arrayString){
+    let result = '';
+    arrayString.forEach((art, index, array)=>{
+        result += `${art.name}`
+        result += index !== array.length-2 ? index === array.length-1 ? "" : ", "
+            : " y "
+    })
+    return result;
+}
