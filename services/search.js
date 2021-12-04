@@ -69,14 +69,17 @@ const changePlayer = ( actionEvent, uri ) => {
     .catch(err=>console.log("Error ",err.response))
 }
 
-const getSearch = (type, query) => {
+const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
+    /*console.log(query)
+    console.log(type)*/
     axios.get(`${urlMain}/search`,
         {
             headers:{"Authorization": `Bearer ${file.accessToken}`},
             params:{q:query,type:type}
         })
     .then(res=>{
-        let { items } = res.data.artists ?? res.data.albums ?? res.data.tracks
+        console.log(res.data)
+        /*let { items } = res.data.artists ?? res.data.albums ?? res.data.tracks
             ?? res.data.playlists;
         //console.log(items)
         let action = {
@@ -85,12 +88,13 @@ const getSearch = (type, query) => {
             track: ()=>console.log("Metodo track"),
             playlist: ()=>console.log("Metodo playlist"),
         }
-        action.artist()
+        action.artist()*/
     })
     .catch(err=>console.log(err));
 }
 
-function askQuestion(query) {
+//Cambiar al modulo que existe
+/*function askQuestion(query) {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -100,6 +104,8 @@ function askQuestion(query) {
         rl.close();
         resolve(ans);
     }))
-}
+}*/
 
-getSearch(process.argv[2],process.argv[3]);
+process.argv[3] !== undefined ? getSearch(process.argv[3],process.argv[2])
+    : getSearch(process.argv[2]);
+

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const change = require('./change.js')
 const urlMain = "https://api.spotify.com/v1"
 const configFile = './config.json'
 const file = require(configFile)
@@ -11,16 +12,6 @@ const changeSong = ( actionEvent ) => {
         })
 	    .then(res=>console.log("Hecho! "))
 		.catch(err=>console.log("Error ",err.response.data))
-}
-
-const changePlayer = ( actionEvent ) => {
-   axios.put(`${urlMain}/me/player/${actionEvent}`,null,
-       {
-           headers:{"Authorization": `Bearer ${file.accessToken}`},
-           params:{device_id: file.device}
-       })
-    .then(()=>console.log("Hecho!"))
-    .catch(err=>console.log("Error ",err.response.data))
 }
 
 const changeShuffle = ( bool ) => {
@@ -56,10 +47,10 @@ switch (process.argv[2]){
         changeSong("previous");
 		break;
     case "play":
-        changePlayer(process.argv[2])
+        change(process.argv[2])
         break;
     case "pause":
-        changePlayer(process.argv[2])
+        change(process.argv[2])
         break;
     case "random":
         if(process.argv[3] === "true"){
