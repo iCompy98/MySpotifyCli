@@ -8,8 +8,14 @@ const changePlayer = ( actionEvent, uri = null) => {
     console.log("Cambiando ...")
     var body;
     if(uri !== null ){
-        body = {
-            "context_uri":uri
+        if(uri.includes("track")){
+            body = {
+                "uris":[uri]
+            }
+        }else{
+            body = {
+                "context_uri":uri
+            }
         }
     }else{
         body = uri

@@ -23,7 +23,7 @@ const playPlaylist = () => {
             .padding(2)
             .column('Playlist', 25, [clc.cyan])
             .padding(2) 
-            .column('Uri', 30, [clc.cyan])
+            .column('Uri', 50, [clc.cyan])
             .fill()
             .output();
 
@@ -34,7 +34,7 @@ const playPlaylist = () => {
                 .padding(2)
                 .column(`${playlist.name}`, 25, [clc.cyan])
                 .padding(2) 
-                .column(`${playlist.uri}`, 30, [clc.cyan])
+                .column(`${playlist.uri}`, 50, [clc.cyan])
                 .fill()
                 .output();
         })

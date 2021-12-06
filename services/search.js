@@ -1,17 +1,16 @@
 const axios = require('axios');
 const fs = require('fs');
-const urlMain = "https://api.spotify.com/v1"
-const configFile = './config.json'
-const file = require(configFile)
 const readline = require('readline');
 const CLI = require('clui');
 const clc = require('cli-color');
+const ask = require('./ask.js')
+const changePlayer = require('./change.js')
+const urlMain = "https://api.spotify.com/v1"
+const configFile = './config.json'
+const file = require(configFile)
 const Line = CLI.Line;
 
-//console.log(process.argv)
-
 const artistPrint = (items) => {
-    console.log(items)
     var header = new Line()
         .padding(2)
         .column('Id', 5, [clc.cyan])
@@ -34,77 +33,134 @@ const artistPrint = (items) => {
             .fill()
             .output();
     }
-    askQuestion("Seleccione mediante su ID: ")
+    ask("Seleccione mediante su ID: ")
         .then(res=>{
-            console.log("Seleccionado ", items[res])
             changePlayer("play",items[res-1].uri)
         })
         .catch(err=>console.log(err))
 }
 
-const albumPrint = () => {
-
-}
-
-const trackPrint = () => {
-
-}
-
-const playlistPrint = () => {
-
-}
-
-const changePlayer = ( actionEvent, uri ) => {
-    const body =  {
-        "context_uri": uri,   
-        "position_ms": 0      
-    };
-
-   axios.put(`${urlMain}/me/player/${actionEvent}`,body,
-       {
-           headers:{"Authorization": `Bearer ${file.accessToken}`},
-           params:{device_id: file.device}
+const albumPrint = (items) => {
+    var header = new Line()                                               
+        .padding(2)
+        .column('Id', 5, [clc.cyan])
+        .padding(2)
+        .column('Nombre', 30, [clc.cyan])
+        .padding(2) 
+        .column('Artista', 40, [clc.cyan])
+        .fill()
+        .output();
+                                                                       
+    let count = 0;
+    for(let album of items){
+        var trackLine = new Line()
+            .padding(2)
+            .column(`${++count}`, 5)
+            .padding(2)
+            .column(`${album.name}`, 30 )
+            .padding(2)
+            .column(`${album.artists[0].name}`)
+            .fill()
+            .output();
+    }
+    ask("Seleccione mediante su ID: ")
+       .then(res=>{
+           changePlayer("play",items[res-1].uri)
        })
-    .then((res)=>console.log("Hecho! "))
-    .catch(err=>console.log("Error ",err.response))
+       .catch(err=>console.log(err))
+}
+
+const trackPrint = (items) => {
+    var header = new Line()
+        .padding(2)
+        .column('Id', 5, [clc.cyan])
+        .padding(2)
+        .column('Nombre', 30, [clc.cyan])
+        .padding(2) 
+        .column('Album y Artista', 40, [clc.cyan])
+        .fill()
+        .output();
+
+    let count = 0;
+    for(let track of items){
+        var trackLine = new Line()
+            .padding(2)
+            .column(`${++count}`, 5)
+            .padding(2)
+            .column(`${track.name}`, 30 )
+            .padding(2)
+            .column(`${track.album.name} de ${track.artists[0].name}`)
+            .fill()
+            .output();
+    }
+    ask("Seleccione mediante su ID: ")
+       .then(res=>{
+           changePlayer("play",items[res-1].uri)
+       })
+       .catch(err=>console.log(err))
+}
+
+const playlistPrint = (items) => {
+    var header = new Line()                                            
+        .padding(2)
+        .column('Id', 5, [clc.cyan])
+        .padding(2)
+        .column('Nombre', 35, [clc.cyan])
+        .padding(2) 
+        .column('Uri', 45, [clc.cyan])
+        .fill()
+        .output();
+                                                                       
+    let count = 0;
+    for(let playlist of items){
+        var trackLine = new Line()
+            .padding(2)
+            .column(`${++count}`, 5)
+            .padding(2)
+            .column(`${playlist.name}`, 35 )
+            .padding(2)
+            .column(`${playlist.uri}`,45)
+            .fill()
+            .output();
+    }
+
+    ask("Seleccione mediante su ID: ")
+       .then(res=>{
+           changePlayer("play",items[res-1].uri)
+       })
+       .catch(err=>console.log(err.response.data))
 }
 
 const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
-    /*console.log(query)
-    console.log(type)*/
-    axios.get(`${urlMain}/search`,
+    const avaliableWords = "album,artist,playlist,track,show,episode";
+
+    avaliableWords.includes(type) 
+        ? axios.get(`${urlMain}/search`,
         {
             headers:{"Authorization": `Bearer ${file.accessToken}`},
             params:{q:query,type:type}
         })
-    .then(res=>{
-        console.log(res.data)
-        /*let { items } = res.data.artists ?? res.data.albums ?? res.data.tracks
+        .then(res=>{
+        let { items } = res.data.artists ?? res.data.albums ?? res.data.tracks
             ?? res.data.playlists;
-        //console.log(items)
         let action = {
             artist: ()=>artistPrint(items),
-            album: ()=>console.log("Metodo albums"),
-            track: ()=>console.log("Metodo track"),
-            playlist: ()=>console.log("Metodo playlist"),
+            album: ()=>albumPrint(items),
+            track: ()=>trackPrint(items),
+            playlist: ()=>playlistPrint(items),
+            show: ()=>console.log("Show not supported, yet. Create me a issues"),
+            episode: ()=>console.log("Episode not supported, yet. Create me a issues")
         }
-        action.artist()*/
-    })
-    .catch(err=>console.log(err));
+        for (let key of Object.keys(action)){
+            if(key === type){
+                action[key]()
+                break;
+            }
+        }
+        })
+        .catch(err=>console.log(err.response.data ?? err)) 
+        : console.log(`Parametro desconocido: ${type}`);
 }
-
-//Cambiar al modulo que existe
-/*function askQuestion(query) {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
-
-    return new Promise(resolve => rl.question(query, ans => {
-        rl.close();
-        resolve(ans);
-    }))
-}*/
 
 process.argv[3] !== undefined ? getSearch(process.argv[3],process.argv[2])
     : getSearch(process.argv[2]);
