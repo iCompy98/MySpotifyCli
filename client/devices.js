@@ -61,6 +61,5 @@ function askQuestion(query) {
 }
 
 getDevices();
-
-
+module.exports = getDevices;
 

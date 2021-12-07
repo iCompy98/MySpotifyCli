@@ -8,6 +8,7 @@ var scopes = [
     "user-read-recently-played",
 ]
 
+const getUrl = () => {
 axios.get(`${mainUrl}/`)
     .then(res=> {
         console.log(res)
@@ -20,4 +21,6 @@ axios.get(`${mainUrl}/`)
 	.catch(err=>{
         console.log(err)
     })
-
+}
+getUrl();
+module.exports = getUrl;

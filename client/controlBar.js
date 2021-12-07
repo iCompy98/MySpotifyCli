@@ -37,6 +37,7 @@ const currentSong = () => {
     .catch(err=>console.log(err))
 }
 
+const controlBar = () =>{
 switch (process.argv[2]){
     case "next":
         console.log("Cambiando cancion...")
@@ -69,6 +70,7 @@ switch (process.argv[2]){
     default:
 	    console.log(`No hay opciones para '${process.argv[2]}'`)
 }
+}
 
 function sortString(arrayString){
     let result = '';
@@ -79,3 +81,6 @@ function sortString(arrayString){
     })
     return result;
 }
+
+controlBar();
+module.exports = controlBar;

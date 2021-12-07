@@ -162,6 +162,9 @@ const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
         : console.log(`Parametro desconocido: ${type}`);
 }
 
-process.argv[3] !== undefined ? getSearch(process.argv[3],process.argv[2])
+const search = () => process.argv[3] !== undefined 
+    ? getSearch(process.argv[3],process.argv[2])
     : getSearch(process.argv[2]);
 
+search();
+module.exports = search;

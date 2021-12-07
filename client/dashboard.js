@@ -54,10 +54,13 @@ const actions = {
     playlists: ()=> playPlaylist()
 }
 
-for (let key of Object.keys(actions)){
-    if(key === process.argv[2]){
-        actions[key]()
-        break;
+const dashboard = () => {
+    for (let key of Object.keys(actions)){
+        if(key === process.argv[2]){
+            actions[key]()
+            break;
+        }
     }
 }
-
+dashboard();
+module.exports = dashboard;

@@ -1,9 +1,11 @@
-var http = require("http")
+const controlBar = require('/client/controlBar.js')
 
-http.createServer(
-		(req, res)=> {
-				res.writeHead(200,{"Content-Type": "text/plain"});
-				res.write("Hello World");
-				res.end()
-		}
-).listen(8888);
+controlBar();
+
+
+
+
+
+
+
+
