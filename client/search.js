@@ -3,10 +3,10 @@ const fs = require('fs');
 const readline = require('readline');
 const CLI = require('clui');
 const clc = require('cli-color');
-const ask = require('./ask.js')
-const changePlayer = require('./change.js')
+const ask = require('./services/ask.js')
+const changePlayer = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './config.json'
+const configFile = './.config.json'
 const file = require(configFile)
 const Line = CLI.Line;
 

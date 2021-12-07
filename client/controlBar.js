@@ -1,8 +1,8 @@
 const axios = require('axios');
 const fs = require('fs');
-const change = require('./change.js')
+const change = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './config.json'
+const configFile = './.config.json'
 const file = require(configFile)
 
 const changeSong = ( actionEvent ) => {
