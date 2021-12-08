@@ -1,7 +1,7 @@
 const axios = require('axios'); 
 const fs = require('fs');
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './.config.json'
+const configFile = `${process.env.PWD}/client/services/.config.json`
 const file = require(configFile)
 const askQuestion = require('./services/ask.js')
 const change = require('./services/change.js')
@@ -54,13 +54,13 @@ const actions = {
     playlists: ()=> playPlaylist()
 }
 
-const dashboard = () => {
+const dashboard = (action) => {
     for (let key of Object.keys(actions)){
-        if(key === process.argv[2]){
+        if(key === action){
             actions[key]()
             break;
         }
     }
 }
-dashboard();
+
 module.exports = dashboard;

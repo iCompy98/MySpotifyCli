@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './.config.json'
+const configFile = `${process.env.PWD}/client/services/.config.json`
 const file = require(configFile)
 const readline = require('readline');
 const CLI = require('clui');
@@ -60,6 +60,5 @@ function askQuestion(query) {
     }))
 }
 
-getDevices();
 module.exports = getDevices;
 

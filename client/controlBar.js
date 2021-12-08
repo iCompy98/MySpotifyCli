@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const change = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './.config.json'
+const configFile = `${process.env.PWD}/client/services/.config.json`
 const file = require(configFile)
 
 const changeSong = ( actionEvent ) => {
@@ -37,38 +37,38 @@ const currentSong = () => {
     .catch(err=>console.log(err))
 }
 
-const controlBar = () =>{
-switch (process.argv[2]){
+const controlBar = (action, randomState) =>{
+switch (action){
     case "next":
         console.log("Cambiando cancion...")
-        changeSong(process.argv[2]);
+        changeSong(action);
 		break;
 	case "prev":
 	    console.log("Cambiando cancion...")
         changeSong("previous");
 		break;
     case "play":
-        change(process.argv[2])
+        change(action)
         break;
     case "pause":
-        change(process.argv[2])
+        change(action)
         break;
     case "random":
-        if(process.argv[3] === "true"){
+        if(randomState === "true"){
             console.log("Activando random...")
             changeShuffle(true)
-        }else if(process.argv[3] === "false"){
+        }else if(randomState === "false"){
             console.log("Desactivando random ...")
             changeShuffle(false)
         }else{
-            console.log(`No hay opciones para 'random ${process.argv[3]}'`)
+            console.log(`No hay opciones para 'random ${randomState}'.`)
         }
         break;
     case "now":
         currentSong();
         break;
     default:
-	    console.log(`No hay opciones para '${process.argv[2]}'`)
+	    console.log(`No hay opciones para '${action}'`)
 }
 }
 
@@ -82,5 +82,4 @@ function sortString(arrayString){
     return result;
 }
 
-controlBar();
 module.exports = controlBar;

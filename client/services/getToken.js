@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const urlMain = "http://localhost:8888"
-const configFile = '../.config.json'
+const configFile = `${process.env.PWD}/client/services/.config.json`
 //const file = require(configFile)
 
 const getToken = () => {
@@ -16,6 +16,5 @@ axios.get(`${urlMain}/token`)
 	.catch(err=>console.log(err))
 }
 
-getToken();
-
 module.exports = getToken;
+

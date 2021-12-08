@@ -6,7 +6,7 @@ const clc = require('cli-color');
 const ask = require('./services/ask.js')
 const changePlayer = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
-const configFile = './.config.json'
+const configFile = `${process.env.PWD}/client/services/.config.json`
 const file = require(configFile)
 const Line = CLI.Line;
 
@@ -151,20 +151,29 @@ const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
             show: ()=>console.log("Show not supported, yet. Create me a issues"),
             episode: ()=>console.log("Episode not supported, yet. Create me a issues")
         }
-        for (let key of Object.keys(action)){
-            if(key === type){
-                action[key]()
-                break;
+        //Next issues
+            //Anticipar estos else. Se puede preguntar antes de que se haga
+            //la peticion a la API
+        if(action[type] !== undefined){
+            for (let key of Object.keys(action)){
+                if(key === type){
+                    action[key]()
+                    break;
+                }
             }
+        }else if(type === avaliableWords){
+            console.log("General search not supported yet")
+        }else{
+            console.log(`Type invalid ${type}`)
         }
         })
         .catch(err=>console.log(err.response.data ?? err)) 
         : console.log(`Parametro desconocido: ${type}`);
 }
 
-const search = () => process.argv[3] !== undefined 
-    ? getSearch(process.argv[3],process.argv[2])
-    : getSearch(process.argv[2]);
+const search = (variableData, optionalData) => optionalData === undefined
+    ? getSearch(variableData)
+    : getSearch(optionalData, variableData)
 
-search();
 module.exports = search;
+

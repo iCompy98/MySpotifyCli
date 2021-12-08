@@ -1,4 +1,5 @@
 const axios = require('axios');
+const getToken= require('./services/getToken.js')
 const mainUrl = 'http://localhost:8888';
 
 var scopes = [
@@ -18,9 +19,13 @@ axios.get(`${mainUrl}/`)
         .then(res=>console.log('La mera mera url: ',res.data.url))
         .catch(err=>console.log(err.response))
     })
+    .then(()=>{
+        getToken()
+    })
 	.catch(err=>{
         console.log(err)
     })
 }
-getUrl();
+
 module.exports = getUrl;
+
