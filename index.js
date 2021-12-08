@@ -14,9 +14,26 @@ const actions = {
     search: ()=>search(process.argv[3],process.argv[4])
 }
 
-for (let key of Object.keys(actions)){
-    if(key === process.argv[2]){
-        actions[key]()
-        break;
+const showManual = () => {
+    const fs = require('fs')
+    fs.readFile('./.man.txt', 'utf8', (err,data)=>{
+        if(err){
+            console.log("Error al leer archivo ", err)
+            return
+        }
+        console.log(data)
+    })
+}
+
+if (Object.keys(actions).includes(process.argv[2])){
+    for (let key of Object.keys(actions)){
+        if(key === process.argv[2]){
+            actions[key]()
+            break;
+        }
     }
+}else if (process.argv[2] === undefined){
+    showManual()
+}else{
+    console.log(`Argument invalid '${process.argv[2]}'`)
 }
