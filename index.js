@@ -1,4 +1,9 @@
-#!/usr/bin/env node
+const fs = require('fs')
+
+console.log(process.env.PWD)
+fs.exists(`${process.env.PWD}/client/services/.config.json`,(exist)=>
+    exist ? "Si" : "No"
+)
 
 const getToken = require('./client/services/getToken.js')
 const controlBar = require('./client/controlBar')
@@ -8,9 +13,13 @@ const dashboard = require('./client/dashboard')
 const devices = require('./client/devices')
 const search = require('./client/search')
 
+
 const actions = {
     token: ()=>getToken(),
-    refreshToken: ()=>refreshToken(),
+    refreshToken: ()=>{
+        refreshToken()
+        getToken()
+    },
     controlbar: ()=>controlBar(process.argv[3],process.argv[4]),
     url: ()=>getUrl(),
     dashboard: ()=>dashboard(process.argv[3]),
