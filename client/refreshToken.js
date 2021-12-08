@@ -6,7 +6,7 @@ const configFile = `${process.env.PWD}/client/services/.config.json`
 const file = require(configFile)
 
 const refreshToken = () => {
-axios.post(`${urlMain}/refresh_token`,{"refreshToken":file.refreshToken})
+    axios.post(`${urlMain}/refresh_token`,{"refreshToken":file.refreshToken})
     .then(res=>{
         //console.log(res.data)
         console.log("Se refresco el token.")
