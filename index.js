@@ -1,10 +1,3 @@
-const fs = require('fs')
-
-console.log(process.env.PWD)
-fs.exists(`${process.env.PWD}/client/services/.config.json`,(exist)=>
-    exist ? "Si" : "No"
-)
-
 const getToken = require('./client/services/getToken.js')
 const controlBar = require('./client/controlBar')
 const refreshToken = require('./client/refreshToken')
