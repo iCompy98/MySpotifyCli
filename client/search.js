@@ -162,7 +162,8 @@ const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
                 }
             }
         }else if(type === avaliableWords){
-            console.log("General search not supported yet")
+            console.log("General search not supported yet. Please, "+
+            "enter the type (e.g. track, artist)")
         }else{
             console.log(`Type invalid ${type}`)
         }
