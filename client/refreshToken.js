@@ -2,7 +2,8 @@ const axios = require('axios')
 const fs = require('fs');
 const getToken = require('./services/getToken.js')
 const urlMain = "http://localhost:8888"
-const configFile = `${process.env.PWD}/client/services/.config.json`
+const configFile = `./services/.config.json`
+
 const file = require(configFile)
 
 const refreshToken = () => {

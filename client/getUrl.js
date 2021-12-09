@@ -12,7 +12,7 @@ var scopes = [
 const getUrl = () => {
 axios.get(`${mainUrl}/`)
     .then(res=> {
-        console.log(res)
+        //console.log(res)
         axios.post(`${mainUrl}/generateToken`,
             {"scope": scopes.join(" ")}
         )

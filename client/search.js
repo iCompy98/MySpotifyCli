@@ -6,7 +6,7 @@ const clc = require('cli-color');
 const ask = require('./services/ask.js')
 const changePlayer = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
-const configFile = `${process.env.PWD}/client/services/.config.json`
+const configFile = `./services/.config.json`
 const file = require(configFile)
 const Line = CLI.Line;
 

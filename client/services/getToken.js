@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const urlMain = "http://localhost:8888"
-const configFile = `${process.env.PWD}/client/services/.config.json`
+const configFile = `./.config.json`
 const file = require(configFile)
 
 const getToken = () =>{
