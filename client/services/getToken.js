@@ -1,8 +1,21 @@
 const axios = require('axios');
 const fs = require('fs');
 const urlMain = "http://localhost:8888"
-const configFile = `./.config.json`
-const file = require(configFile)
+const configFile = `${process.env.HOME}/Documents/MySpotifyCli/client/services/.config.json`
+
+fs.exists(configFile, (exist)=>{
+    if(exist){
+        
+    }else{
+        const data = {
+            "accessToken":""
+        }
+        fs.writeFile(configFile,JSON.stringify(data), (err)=>{
+            if (err) throw err;
+            console.log("Archivo creado")
+        })
+    }
+})
 
 const getToken = () =>{
 

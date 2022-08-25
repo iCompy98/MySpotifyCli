@@ -2,9 +2,9 @@ const axios = require('axios');
 const fs = require('fs');
 const urlMain = "https://api.spotify.com/v1"
 const configFile = `./.config.json` 
-const file = require(configFile)
 
 const changePlayer = ( actionEvent, uri = null) => {
+    const file = require(configFile)
     console.log("Cambiando ...")
     var body;
     if(uri !== null ){

@@ -3,9 +3,9 @@ const fs = require('fs');
 const change = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
 const configFile = `./services/.config.json`
-const file = require(configFile)
 
 const changeSong = ( actionEvent ) => {
+    const file = require(configFile)
     axios.post(`${urlMain}/me/player/${actionEvent}`,null,{
             headers:{"Authorization": `Bearer ${file.accessToken}`},
 		    params:{device_id: file.device}
@@ -15,6 +15,7 @@ const changeSong = ( actionEvent ) => {
 }
 
 const changeShuffle = ( bool ) => {
+    const file = require(configFile)
     axios.put(`${urlMain}/me/player/shuffle`,null,
         {
             headers:{"Authorization": `Bearer ${file.accessToken}`},
@@ -25,6 +26,7 @@ const changeShuffle = ( bool ) => {
 }
 
 const currentSong = () => {
+    const file = require(configFile)
     axios.get(`${urlMain}/me/player/currently-playing`,
         {
             headers:{"Authorization": `Bearer ${file.accessToken}`},

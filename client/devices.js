@@ -2,7 +2,6 @@ const axios = require('axios');
 const fs = require('fs');
 const urlMain = "https://api.spotify.com/v1"
 const configFile = `./services/.config.json`
-const file = require(configFile)
 const readline = require('readline');
 const CLI = require('clui');
 const clc = require('cli-color');
@@ -18,6 +17,7 @@ var header = new Line()
     .fill();
 
 const getDevices = async () => {
+    const file = require(configFile)
     await axios.get(`${urlMain}/me/player/devices`,
         {headers:{"Authorization": `Bearer ${file.accessToken}`}})
     .then(res=>{
@@ -40,10 +40,12 @@ const getDevices = async () => {
             .then(res=>{
                 let index = res-1
                 file.device = devices[index].id
-                fs.writeFileSync(configFile, JSON.stringify(file,null,2))
+                console.log(file)
+                console.log(configFile)
+                //fs.writeFileSync(configFile, JSON.stringify(file,null,2))
                 console.log(`Estara usando el dispositivo: ${devices[index].name}`)
             })
-            .catch(err=>console.log("Algo paso"))
+            .catch(err=>console.log("Algo paso ",err))
     })
     .catch(err=>console.log("Nop ",err))
 }

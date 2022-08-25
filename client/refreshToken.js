@@ -1,17 +1,13 @@
 const axios = require('axios')
 const fs = require('fs');
-const getToken = require('./services/getToken.js')
 const urlMain = "http://localhost:8888"
-const configFile = `./services/.config.json`
-
-const file = require(configFile)
+const configFile = `${process.env.HOME}/Documents/MySpotifyCli/client/services/.config.json`
 
 const refreshToken = () => {
+    const file = require(configFile)
     axios.post(`${urlMain}/refresh_token`,{"refreshToken":file.refreshToken})
     .then(res=>{
-        //console.log(res.data)
-        console.log("Se refresco el token.")
-        getToken();
+        console.log("Lo que recibo ",res.data)
     })
     .catch(err=>console.log(err))
 }

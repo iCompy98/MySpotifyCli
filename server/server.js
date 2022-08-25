@@ -91,9 +91,10 @@ app.post('/refresh_token', function(req, res) {
 											file.accessToken = access_token;
                                                                                 
                       fs.writeFileSync(configFile, JSON.stringify(file,null,2))
+                     console.log("Lo que mando ", file)
                  }
                });
-								res.status(200).send({"message": "Si se encontro"})
+								res.status(200).send(file)
 				} else {
 								res.status(404).send({"message": "Lo se encontro el token"})
 				}

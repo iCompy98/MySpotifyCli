@@ -2,7 +2,6 @@ const axios = require('axios');
 const fs = require('fs');
 const urlMain = "https://api.spotify.com/v1"
 const configFile = `./services/.config.json`
-const file = require(configFile)
 const askQuestion = require('./services/ask.js')
 const change = require('./services/change.js')
 const CLI = require('clui');
@@ -10,6 +9,7 @@ const clc = require('cli-color');
 const Line = CLI.Line;
 
 const playPlaylist = () => {
+    const file = require(configFile)
     axios.get(`${urlMain}/me/playlists`,{
         headers: {
             "Authorization": `Bearer ${file.accessToken}`

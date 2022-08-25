@@ -7,7 +7,6 @@ const ask = require('./services/ask.js')
 const changePlayer = require('./services/change.js')
 const urlMain = "https://api.spotify.com/v1"
 const configFile = `./services/.config.json`
-const file = require(configFile)
 const Line = CLI.Line;
 
 const artistPrint = (items) => {
@@ -132,6 +131,7 @@ const playlistPrint = (items) => {
 }
 
 const getSearch = (query, type="album,artist,playlist,track,show,episode") => {
+    const file = require(configFile)
     const avaliableWords = "album,artist,playlist,track,show,episode";
 
     avaliableWords.includes(type) 
